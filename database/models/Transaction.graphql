@@ -1,0 +1,41 @@
+type Safe @loadModel(id: "kjzl6hvfrbw6c9dt59rze7jdozk1285jtwfb6pf7l8uitrsu9qekk2uny7ba2yw"){
+    id: ID!
+}
+
+#TODO: Recheck Schema, make it better cuz it is shitty
+type Transaction @createModel(accountRelation: LIST, description: "Safe Transaction") {
+    author: DID! @documentAccount
+    safeId: StreamID! @documentReference(model: "Safe")
+    safe: Safe! @relationDocument(property: "safeId")
+    version: CommitID! @documentVersion
+    to: String! @string(maxLength: 42)
+    value: String! @string(maxLength: 50)
+    data: String! @string(maxLength: 10000000)
+    operation: Int!
+    gasToken: String! @string(maxLength: 42)
+    safeTxGas: Int!
+    baseGas: Int!
+    gasPrice: String! @string(maxLength: 50)
+    refundReceiver: String! @string(maxLength: 42)
+    nonce: Int!
+    executionDate: String @string(maxLength: 100)
+    submissionDate: String @string(maxLength: 100)
+    modified: String @string(maxLength: 100)
+    blockInt: Int
+    transactionHash: String @string(maxLength: 100)
+    safeTxHash: String! @string(maxLength: 100)
+    executor: String @string(maxLength: 100)
+    isExecuted: Boolean! 
+    isSuccessful: Boolean!
+    ethGasPrice: String @string(maxLength: 100)
+    maxFeePerGas: String @string(maxLength: 100)
+    maxPriorityFeePerGas: String @string(maxLength: 100)
+    gasUsed: String @string(maxLength: 100)
+    fee: String @string(maxLength: 100)
+    origin: String @string(maxLength: 100)
+    # # dataDecoded is missing
+    confirmationsRequired: String @string(maxLength: 100)
+    trusted: Boolean!
+    signatures: String @string(maxLength: 100) # Can be something else
+}
+

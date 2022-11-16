@@ -1,0 +1,15 @@
+type Transaction @loadModel(id: "kjzl6hvfrbw6c6o487mralr92wyxof0y2kq8m4c824ztw51ivm3b8z5n6nawlud"){
+    id: ID!
+}
+
+type Confirmation @createModel(accountRelation: LIST, description: "Transaction confirmation") {
+    author: DID! @documentAccount
+    transactionId: StreamID! @documentReference(model: "Transaction")
+    transaction: Transaction! @relationDocument(property: "transactionId")
+    version: CommitID! @documentVersion
+    owner: String! @string(maxLength: 42)
+    submissionDate: DateTime @string(maxLength: 100)
+    transactionHash: String @string(maxLength: 100)
+    signature: String! @string(maxLength: 150)
+    signatureType: String! @string(maxLength: 100)
+}

@@ -1,0 +1,6 @@
+type Safe @createModel(accountRelation: LIST, description:"Safe instance") {
+  author: DID! @documentAccount
+  version: CommitID! @documentVersion
+  safe: String! @string(maxLength: 42 minLength: 42)
+  owners: [String!]! @list(maxLength: 50) @string(maxLength: 42)
+}

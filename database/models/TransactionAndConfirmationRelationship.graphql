@@ -1,0 +1,7 @@
+type Confirmation @loadModel(id: "kjzl6hvfrbw6c7iefq0zcbl8t6sr7tdu3dw76qg06alxvo5p8sae09bu1zn50qi") {
+    id: ID!
+}
+
+type Transaction @loadModel(id: "kjzl6hvfrbw6c6o487mralr92wyxof0y2kq8m4c824ztw51ivm3b8z5n6nawlud"){
+    confirmations: [Confirmation] @relationFrom(model: "Confirmation", property: "transactionId")
+}

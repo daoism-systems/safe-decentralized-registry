@@ -1,0 +1,7 @@
+type Transaction @loadModel(id: "kjzl6hvfrbw6c6o487mralr92wyxof0y2kq8m4c824ztw51ivm3b8z5n6nawlud") {
+    id: ID!
+}
+
+type Safe @loadModel(id: "kjzl6hvfrbw6c9dt59rze7jdozk1285jtwfb6pf7l8uitrsu9qekk2uny7ba2yw"){
+    transactions: [Transaction] @relationFrom(model: "Transaction", property: "safeId")
+}
