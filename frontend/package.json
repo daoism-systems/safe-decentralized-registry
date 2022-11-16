@@ -1,7 +1,6 @@
 {
-  "name": "example-app",
+  "name": "safe-poc",
   "version": "0.1.0",
-  "homepage": "https://ChainAgnostic.github.io/session-demo",
   "private": true,
   "dependencies": {
     "@ceramicnetwork/http-client": "^2.10.0",

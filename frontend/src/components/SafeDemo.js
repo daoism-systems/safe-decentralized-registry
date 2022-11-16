@@ -1,9 +1,9 @@
 import detectEthereumProvider from '@metamask/detect-provider'
 import { DIDSession, } from 'did-session'
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import Button from '@mui/material/Button';
 import { Stack } from '@mui/material'
-import { EthereumWebAuth, getAccountId, safeSend } from '@didtools/pkh-ethereum'
+import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum'
 import { ComposeClient } from '@composedb/client'
 import { ethers } from "ethers";
 
@@ -145,7 +145,7 @@ function SafeDemo() {
     await readData()
   }
 
-  const signMessage = async ({ setError, message }) => {
+  const signMessage = async ({ message }) => {
     try {
       if (!window.ethereum)
         throw new Error("No crypto wallet found. Please install it.");
@@ -199,16 +199,13 @@ function SafeDemo() {
       };
     } catch (err) {
       console.error('Error signing data:', err)
-      setError(err.message);
     }
   };
 
   const handleSign = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    setError();
     const sig = await signMessage({
-      setError,
       message: data.get("message")
     });
     if (sig) {
@@ -265,8 +262,7 @@ function SafeDemo() {
       <div>
         {confirmations.map((confirmation) => (
           <div key={confirmation.node.id}>
-            <p>Signature: {confirmation.node.signature}</p>
-            <p>SignatureType: {confirmation.node.signatureType}</p>
+            <p><strong>Signer: {confirmation.node.owner}</strong> <strong>Signature:</strong> {confirmation.node.signature}</p>
           </div>
         ))}
       </div>
