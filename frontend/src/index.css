@@ -11,14 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-.transaction {
-  border: 1px solid orange;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.safe {
-  padding: 10px;
-  margin: 30px;
-}

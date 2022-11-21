@@ -74,3 +74,13 @@ label {
   white-space: -o-pre-wrap;    /* Opera 7 */
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
+
+.transaction {
+  border: 1px solid orange;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.safe {
+  padding: 30px;
+}

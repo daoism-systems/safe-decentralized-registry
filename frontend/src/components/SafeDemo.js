@@ -2,31 +2,31 @@ import detectEthereumProvider from '@metamask/detect-provider'
 import { DIDSession, } from 'did-session'
 import { useState } from 'react'
 import Button from '@mui/material/Button';
-import { Stack } from '@mui/material'
+import { Grid, Stack } from '@mui/material'
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum'
 import { ComposeClient } from '@composedb/client'
 import { ethers } from "ethers";
 
 import { definition } from '../__generated__/definition.js'
-const compose = new ComposeClient({ ceramic: 'http://localhost:7007', definition })
+const ceramicUrl = process.env.REACT_APP_COMPOSEDB_NODE || 'https://composedb.tk'
+console.log(ceramicUrl, 'url', process.env)
+const compose = new ComposeClient({ ceramic: ceramicUrl, definition })
 
 function SafeDemo() {
   const [results, setResults] = useState([])
-  const [transaction, setTransaction] = useState()
   const [session, setSession] = useState()
-  const [error, setError] = useState();
   const resources = compose.resources
 
   async function readData() {
     const result = await compose.executeQuery(`
     query {
-      safeIndex(first: 10) {
+      safeIndex(last: 20) {
         edges {
           node {
             id
             safe
             owners
-            transactions(first: 10) {
+            transactions(last: 20) {
               edges {
                 node {
                   id
@@ -36,7 +36,7 @@ function SafeDemo() {
                   safe {
                     safe
                   }
-                  confirmations(first: 10) {
+                  confirmations(last: 20) {
                     edges {
                       node {
                         id
@@ -112,7 +112,7 @@ function SafeDemo() {
     }`, {
       "input": {
         "content": {
-          "safeId": `${createSafeResponse.data.createSafe.document.id}`,
+          "safeId": createSafeResponse.data.createSafe.document.id,
           "to": fakeTo.address,
           "nonce": 1,
           "value": `${Math.floor(Math.random() * (100 - 2 + 1) + 2)}`, // 1 ETH
@@ -145,7 +145,7 @@ function SafeDemo() {
     await readData()
   }
 
-  const signMessage = async ({ message }) => {
+  const signMessage = async (transaction) => {
     try {
       if (!window.ethereum)
         throw new Error("No crypto wallet found. Please install it.");
@@ -153,7 +153,7 @@ function SafeDemo() {
 
       const domain = {
         chainId: 5,
-        verifyingContract: '0xAc9Aab01991431c3bbC4cd04F6dcc929cdA3a564'
+        verifyingContract: transaction.safe.safe
       }
 
       const types = {
@@ -193,7 +193,6 @@ function SafeDemo() {
       const address = await signer.getAddress();
 
       return {
-        message,
         signature,
         address
       };
@@ -202,18 +201,16 @@ function SafeDemo() {
     }
   };
 
-  const handleSign = async (e) => {
-    e.preventDefault();
-    const data = new FormData(e.target);
-    const sig = await signMessage({
-      message: data.get("message")
-    });
-    if (sig) {
-      await saveConfirmation(sig.signature, sig.address)
-      await readData()
-    }
+  const handleSign = async (t) => {
+    const sig = await signMessage(t);
+    await saveConfirmation(sig.signature, sig.address, t.id)
+    await readData()
   };
-  
+
+  const signTransaction = async (t) => {
+    handleSign(t)
+  }
+
   const render = () => {
     return (
       <div>
@@ -226,16 +223,16 @@ function SafeDemo() {
 
   const renderResults = () => {
     return (
-      <div>
-        {results.map((result, index) => (
-          <div className='safe' key={result.node.id}>
-            <h2>Safe #{index}</h2>
-            <p><strong>Safe address:</strong> {result.node.safe}</p>
-            <div><strong>Safe owners:</strong> {result.node.owners.join(', ')}</div>
-            {renderTransactions(result.node.transactions.edges)}
-          </div>
-        ))}
-      </div>
+      <Grid className='results' container>
+          {results.map((result, index) => (
+            <Grid item xs={6} className='safe' key={result.node.id}>
+              <h2>Safe #{index}</h2>
+              <p><strong>Safe address:</strong> {result.node.safe}</p>
+              <div><strong>Safe owners:</strong> {result.node.owners.join(', ')}</div>
+              {renderTransactions(result.node.transactions.edges)}
+            </Grid>
+          ))}
+      </Grid>
     );
   }
 
@@ -243,7 +240,7 @@ function SafeDemo() {
     return (
       <div>
         {t.map((transaction) => (
-          <div key={transaction.node.id} onClick={() => setTransaction(transaction.node)}>
+          <div key={transaction.node.id} onClick={() => signTransaction(transaction.node)}>
             <h3>Transactions:</h3>
             <div className='transaction'>
               <p><strong>To: </strong>{transaction.node.to}</p>
@@ -262,14 +259,14 @@ function SafeDemo() {
       <div>
         {confirmations.map((confirmation) => (
           <div key={confirmation.node.id}>
-            <p><strong>Signer: {confirmation.node.owner}</strong> <strong>Signature:</strong> {confirmation.node.signature}</p>
+            <p><strong>Signer: {confirmation.node.owner.slice(0,5)}..{confirmation.node.owner.slice(-4)}</strong> <strong>Signature:</strong> {confirmation.node.signature.slice(0,20)}...</p>
           </div>
         ))}
       </div>
     );
   }
 
-  const saveConfirmation = async (signature, owner) => {
+  const saveConfirmation = async (signature, owner, transactionId) => {
     if (session?.did) {
       compose.setDID(session?.did)
     }
@@ -287,7 +284,7 @@ function SafeDemo() {
     }`, {
       "input": {
         "content": {
-          "transactionId": transaction.id,
+          "transactionId": transactionId,
           "owner": owner,
           "signature": signature,
           "signatureType": "EOA"
@@ -316,19 +313,8 @@ function SafeDemo() {
     return (
       <Stack spacing={2}>
         {results == undefined || results.length == 0 ? null : renderResults()}
-        <Stack direction='row' spacing={2} justifyContent="center">
-          <form onSubmit={handleSign}>
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-            >
-              Sign message
-            </Button>
-          </form>
-        </Stack>
-        <Stack direction='row' spacing={2} justifyContent="center">
-          <Stack justifyContent="center">
+        <Stack direction='row' justifyContent="center" spacing={2}>
+          <Stack>
             <Button
               variant="contained"
               size="large"
@@ -350,8 +336,6 @@ function SafeDemo() {
             Sign out
           </Button>
         </Stack> */}
-        <Stack direction='row' justifyContent="left">
-        </Stack>
       </Stack>
     )
   }
