@@ -1,4 +1,5 @@
 # Safe POC 
+## Deployed Demo https://charming-pony-72144d.netlify.app
 
 ## Frontend only
 
@@ -54,18 +55,4 @@ composedb composite:compile ../composites/merged.json ../../frontend/src/__gener
 
 Helper files and notes are located in folder `interactions`
 
-
-ComposeDB commands only work from `database/models` folder
-```
-composedb composite:create Safe.graphql --output=../composites/safe.json --ceramic-url=http://localhost:7007 --did-private-key=$DID_PRIVATE_KEY
-composedb composite:models ../composites/safe.json
-composedb composite:create Transaction.graphql --output=../composites/transaction.json --ceramic-url=http://localhost:7007 --did-private-key=$DID_PRIVATE_KEY
-composedb composite:models ../composites/transaction.json
-composedb composite:create Confirmation.graphql --output=../composites/confirmation.json --ceramic-url=http://localhost:7007 --did-private-key=$DID_PRIVATE_KEY
-composedb composite:models ../composites/confirmation.json
-composedb composite:create SafeAndTransactionRelationship.graphql --output=../composites/safe-tx.json --ceramic-url=http://localhost:7007 --did-private-key=$DID_PRIVATE_KEY
-composedb composite:create TransactionAndConfirmationRelationship.graphql --output=../composites/tx-confirmation.json --ceramic-url=http://localhost:7007 --did-private-key=$DID_PRIVATE_KEY
-composedb composite:merge ../composites/safe.json ../composites/transaction.json ../composites/confirmation.json ../composites/safe-tx.json ../composites/tx-confirmation.json --output=../composites/merged.json
-composedb composite:compile ../composites/merged.json ../composites/runtime-composite.json 
-composedb composite:compile ../composites/merged.json ../../frontend/src/__generated__/definition.js
-```
+Note: ComposeDB commands only work from `database/models` folder

@@ -9,7 +9,6 @@ import { ethers } from "ethers";
 
 import { definition } from '../__generated__/definition.js'
 const ceramicUrl = process.env.REACT_APP_COMPOSEDB_NODE || 'https://composedb.tk'
-console.log(ceramicUrl, 'url', process.env)
 const compose = new ComposeClient({ ceramic: ceramicUrl, definition })
 
 function SafeDemo() {
@@ -26,7 +25,7 @@ function SafeDemo() {
             id
             safe
             owners
-            transactions(last: 20) {
+            transactions(last: 5) {
               edges {
                 node {
                   id
@@ -55,7 +54,6 @@ function SafeDemo() {
     }`)
 
     setResults(result.data.safeIndex.edges)
-    console.log(results)
   }
 
   async function insertSafeAndTransaction() {
@@ -115,7 +113,7 @@ function SafeDemo() {
           "safeId": createSafeResponse.data.createSafe.document.id,
           "to": fakeTo.address,
           "nonce": 1,
-          "value": `${Math.floor(Math.random() * (100 - 2 + 1) + 2)}`, // 1 ETH
+          "value": `${Math.floor(Math.random() * (100 - 2 + 1) + 2)}`,
           "baseGas": 0,
           "trusted": true,
           "gasToken": "0x0000000000000000000000000000000000000000",
@@ -146,13 +144,15 @@ function SafeDemo() {
   }
 
   const signMessage = async (transaction) => {
+    console.log(window.ethereum.chainId, 'asd')
     try {
       if (!window.ethereum)
         throw new Error("No crypto wallet found. Please install it.");
 
+      const chainId = parseInt(window.ethereum.chainId)
 
       const domain = {
-        chainId: 5,
+        chainId,
         verifyingContract: transaction.safe.safe
       }
 
@@ -172,7 +172,7 @@ function SafeDemo() {
       };
 
       const msgToSign = {
-        chainId: 5,
+        chainId,
         verifyingContract: transaction.safe.safe,
         to: transaction.to,
         value: transaction.value,
@@ -183,7 +183,7 @@ function SafeDemo() {
         gasPrice: 0,
         gasToken: '0x0000000000000000000000000000000000000000',
         refundReceiver: '0x0000000000000000000000000000000000000000',
-        nonce: 2, // this is hardcoded
+        nonce: 2, // Nonce is hardcoded
       };
 
       await window.ethereum.send("eth_requestAccounts");
@@ -312,6 +312,7 @@ function SafeDemo() {
   const renderAuthenticated = () => {
     return (
       <Stack spacing={2}>
+        Click on a transaction (orange rectangle) to sign and store signature to ComposeDB.
         {results == undefined || results.length == 0 ? null : renderResults()}
         <Stack direction='row' justifyContent="center" spacing={2}>
           <Stack>
@@ -324,7 +325,7 @@ function SafeDemo() {
             </Button>
           </Stack>
         </Stack>
-        {/* <Stack direction='row' justifyContent="center">
+        <Stack direction='row' justifyContent="center">
           <Button
             variant="contained"
             color="error"
@@ -335,7 +336,7 @@ function SafeDemo() {
           >
             Sign out
           </Button>
-        </Stack> */}
+        </Stack>
       </Stack>
     )
   }
