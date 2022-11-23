@@ -1,4 +1,4 @@
-# Safe POC 
+# dSafe POC 
 ## Deployed Demo https://charming-pony-72144d.netlify.app
 
 React dapp is connected a hosted ComposeDB node that is indexing models used by this dapp. 
