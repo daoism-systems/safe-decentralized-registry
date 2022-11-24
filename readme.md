@@ -47,3 +47,50 @@ Models are defined in `database/models`. In that folder you will see additional 
 
 This means that we can query Safe -> get safe transactions -> get confirmations for those transactions, or go the other way around.
 Confirmation -> get transaction of that confirmation -> get safe for that transaction.
+
+## Connecting to node with grahpql server
+
+You can connect to local node with graphql by running command from root folder.
+```
+composedb graphql:server --ceramic-url=http://localhost:7007 --graphiql ./database/composites/runtime-composite.json --did-private-key=$DID_PRIVATE_KEY
+```
+If you omit --did-private-key you can only view data, and if you provide it you can write and update data that you own.
+replace `http://localhost:7007` with `https://composedb.tk` to connect to remote node
+
+Example query that you can run to get last 20 safes with their transactions and confirmations.
+```
+    query {
+      safeIndex(last: 20) {
+        edges {
+          node {
+            id
+            safe
+            owners
+            transactions(last: 5) {
+              edges {
+                node {
+                  id
+                  to
+                  value
+                  data
+                  safe {
+                    safe
+                  }
+                  confirmations(last: 20) {
+                    edges {
+                      node {
+                        id
+                        owner
+                        signatureType
+                        signature
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+```
