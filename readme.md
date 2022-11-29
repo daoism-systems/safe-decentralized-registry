@@ -17,7 +17,7 @@ To test the POC dApp functionality:
 
 - safe transactions are represented as rectangles with orange borders("same as on the picture below") 
 
-![orange rectangle](https://i.imgur.com/lbGh2St.png)
+<img src="https://i.imgur.com/lbGh2St.png" width=50% height=50%>
 
 - click on a transaction and sign it with your metamask
 
