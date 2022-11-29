@@ -1,15 +1,26 @@
 # dSafe POC 
-## Deployed Demo https://charming-pony-72144d.netlify.app
 
-React dapp is connected a hosted ComposeDB node that is indexing models used by this dapp. 
+## POC Demo is deployed at https://charming-pony-72144d.netlify.app
+
+React dApp is connected to a hosted ComposeDB node that is indexing this dApp models. 
 
 ## Frontend only
 
-If you decide to run frontend. It will connect to remote ComposeDB node and interact with it.
+In order to run frontend it should connect to remote ComposeDB node. To do so:
 
-Go to `frontend` folder, install npm packages and run `npm run start`.
+- `cd frontend`
 
-Click on any transaction (orange box) and it will prompt you to sign it as you would in a Safe Dapp if you were the safe owner. It then stores that signature in ComposeDB. ComposeDB then synces that signature with all running ComposeDB nodes that are indexing models used by this dapp.
+- `npm install` all the packages
+
+- `npm run start`
+
+To interact with the POC dApp:
+
+- select a `görli testnet` on your metamask
+
+- press `sign in with ethereum`
+
+Sign transaction as if you were a Safe owner. The signature is then being stored in the ComposeDB and synced with all the other ComposeDB nodes with the same indexing models.
 
 
 ## Running a ComposeDB node + frontend dapp
