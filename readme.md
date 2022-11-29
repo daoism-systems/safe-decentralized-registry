@@ -1,26 +1,40 @@
-# dSafe POC 
+# Safe Decentralized Registry [POC] 
 
-## POC Demo is deployed at https://charming-pony-72144d.netlify.app
+Demo is deployed at https://charming-pony-72144d.netlify.app
 
-React dApp is connected to a hosted ComposeDB node that is indexing this dApp models. 
+This POC website works with a React dApp and a ComposedDB Node. It is meant to demonstrate the flow of storing Safe signatures on ComposeDB that is indexing Safe models(composites).
 
-## Frontend only
 
-In order to run frontend it should connect to remote ComposeDB node. To do so:
+# How to test it?
+
+To test the POC dApp functionality:
+
+- select a `görli testnet` on your metamask(f.e.)
+
+- press `sign in with ethereum`
+
+- interact with one of the pre-created safes or press `create new safe`
+
+- safe transactions are represented as rectangles with orange borders("same as on the picture below") 
+
+![orange rectangle](https://i.imgur.com/lbGh2St.png)
+
+- click on a transaction and sign it with your metamask
+
+- now you should see a new Safe signature within the borders of a rectangle 
+
+
+## Run your frontend locally
+
+Running frontend locally will connect it to a remote ComposeDB node(hosted at https://composedb.tk). 
+
+To do so:
 
 - `cd frontend`
 
 - `npm install` all the packages
 
 - `npm run start`
-
-To interact with the POC dApp:
-
-- select a `görli testnet` on your metamask
-
-- press `sign in with ethereum`
-
-Sign transaction as if you were a Safe owner. The signature is then being stored in the ComposeDB and synced with all the other ComposeDB nodes with the same indexing models.
 
 
 ## Running a ComposeDB node + frontend dapp
