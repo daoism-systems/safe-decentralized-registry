@@ -2,14 +2,38 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import Safe from './components/Safe';
 import reportWebVitals from './reportWebVitals';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
+
+export async function safeLoader({ params }: any) {
+  return params.safeId
+}
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "safe/:safeId",
+    element: <Safe />,
+    loader: safeLoader
+  },
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <ThirdwebProvider desiredChainId={ChainId.Goerli}>
+      <RouterProvider router={router} />
+    </ThirdwebProvider>
   </React.StrictMode>
 );
 

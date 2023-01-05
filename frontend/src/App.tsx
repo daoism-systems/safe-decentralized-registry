@@ -21,7 +21,7 @@ function App() {
           </p>
         </header>
         <div className="App-content">
-          <SafeDemo/>
+          <SafeDemo />
         </div>
       </ThemeProvider>
     </div>
