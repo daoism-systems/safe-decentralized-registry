@@ -1,58 +1,64 @@
-.App {
-  background-color: #282c34;
-  min-height: 100vh;
+.header {
+  display: flex;
+  justify-content: right;
+  padding: 10px;
+}
+
+.sign-in-btn {
+  margin: auto;
+  text-align: center;
+}
+
+.safe-list {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.safe-link, .safe-link:visited {
+  color: white;
+}
+
+.main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
   text-align: center;
-}
-
-@media screen and  (max-width:375px) {
-  .App-header {
-    font-size: 20px;
-  }
-
-  .App-content {
-    font-size: 14px;
-  }
-
-  #console {
-    width: 300px;
-  }
-}
-
-@media screen and  (min-width:376px) {
-  .App-header {
-    font-size: 60px;
-  }
-
-  .App-content {
-    font-size: 20px;
-  }
-
-  #console {
-    width: 350px;
-  }
-}
-
-@media screen and  (min-width:800px) {
-  .App-header {
-    font-size: 80px;
-  }
-
-  .App-content {
-    font-size: 15px;
-  }
-
-  #console {
-    width: 700px;
-  }
+  color: white;
 }
 
 .App-ul {
   text-align: left;
+}
+
+input:-internal-autofill-selected {
+ color:red;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px #1d241d inset;
+}
+
+
+
+/* Select Safe to Add box */
+#root > div.app-body > div > div > div > div > div:nth-child(2) > div > div > div > div {
+  color:white;
+}
+#root > div.app-body > div > div > div:nth-child(2) > div > div > div > div {
+  color:white
+}
+/* --- */
+
+.MuiList-root {
+  background-color: #1d241d;
+  color:white
 }
 
 .App-link {
@@ -60,25 +66,49 @@
 }
 
 label {
-  color: #ff4f00!important;
-}
-
-#console {
-  background-color: black;
-  font-size: 14px;
-  text-align: left;
-  margin: 1.5em;
-  white-space: pre-wrap;       /* css-3 */
-  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;      /* Opera 4-6 */
-  white-space: -o-pre-wrap;    /* Opera 7 */
-  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  color: #13d005!important;
 }
 
 .transaction {
-  border: 1px solid orange;
+  /* border: 1px solid orange; */
   border-radius: 7px;
   cursor: pointer;
+  word-wrap: break-word;
+  padding: 0 1%;
+  margin: 2% 10%;
+}
+
+.transaction p {
+  font-size: smaller;
+  margin: 1%
+}
+
+#input-frm {
+  color:white
+}
+
+.transaction button {
+  margin-top: 2%;
+}
+
+.confimations {
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  font-size: smaller;
+}
+
+#functionSelect {
+  margin-top: 2px;
+  color:white;
+}
+
+#text-fields {
+  color:white;
+}
+
+#select-input {
+  color: white;
 }
 
 .safe {
