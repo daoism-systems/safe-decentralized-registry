@@ -3,10 +3,6 @@ import { TransactionData } from "./db";
 
 const signMessage = async (safeAddress: string, payload: TransactionData) => {
     try {
-      if (!window.ethereum) {
-        throw new Error("No crypto wallet found. Please install it.");
-      }
-
       const ethereum: any = window.ethereum
 
       const chainId = parseInt(ethereum.chainId)

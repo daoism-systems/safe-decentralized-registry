@@ -1,8 +1,8 @@
 import { FormControl, InputLabel, Select, MenuItem, TextField, Button, Grid } from '@mui/material'
 import { useState } from 'react'
-import { ethers } from 'ethers';
 import { useLoaderData } from "react-router-dom";
 import db, { TransactionData } from '../helpers/db';
+import { fetchSafeNonce } from '../helpers/fetchSafeNonce';
 
 interface FormValues {
     // can be anything
@@ -16,24 +16,13 @@ const RenderAbi = ({ contract, contractAddress }: { contract: any, contractAddre
     const [formValues, setFormValues] = useState<FormValues>({ ethValue: '0', hexCallData: '0x' });
     const safeAddress = loaderData.safe.node.safe;
 
-    const fetchSafeNonce = async () => {
-        if (!window.ethereum) {
-            return
-        }
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const safeContract = new ethers.Contract(safeAddress, ['function nonce() external view returns(uint256)'], provider)
-        return (await safeContract.nonce()).toNumber()
-    }
-
     async function handleSubmitNoContract() {
-        const obj: any = formValues;
-
-        const payload: TransactionData = {
+        const payload = {
             to: contractAddress,
-            nonce: await fetchSafeNonce(),
-            value: obj.ethValue,
-            data: obj.data || '0x',
-        }
+            nonce: await fetchSafeNonce(safeAddress),
+            value: formValues.ethValue,
+            data: formValues.hexCallData || '0x',
+        } satisfies TransactionData
 
         const response = await db.insertTransaction(loaderData.composeDBId, payload)
 
@@ -47,27 +36,22 @@ const RenderAbi = ({ contract, contractAddress }: { contract: any, contractAddre
     }
 
     async function handleSubmit() {
-        if (!window.ethereum) {
-            return
-        }
-
-        // match function fron ABI
+        // match function from the ABI
         const fncParams = contract.abi.filter((x: any) => {
             if (x.name == selectedFunction && x.type == 'function') {
                 return x;
             }
         }).pop();
 
-        const obj: any = formValues;
         // sort params in order that the function requires it
-        const paramsSorted = fncParams.inputs.map((x: any) => obj[x.name])
+        const paramsSorted = fncParams.inputs.map((x: any) => (formValues as any)[x.name])
 
-        const payload: TransactionData = {
+        const payload = {
             to: contractAddress,
-            nonce: await fetchSafeNonce(),
-            value: obj.ethValue,
+            nonce: await fetchSafeNonce(safeAddress),
+            value: formValues.ethValue,
             data: contract.encoder.encode(selectedFunction, [...paramsSorted]),
-        }
+        } satisfies TransactionData
 
         const response = await db.insertTransaction(loaderData.composeDBId, payload)
 

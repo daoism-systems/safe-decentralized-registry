@@ -2,7 +2,7 @@ type Safe @loadModel(id: "kjzl6hvfrbw6c9dt59rze7jdozk1285jtwfb6pf7l8uitrsu9qekk2
     id: ID!
 }
 
-#TODO: Recheck Schema, make it better cuz it is shitty
+#TODO: Recheck Schema
 type Transaction @createModel(accountRelation: LIST, description: "Safe Transaction") {
     author: DID! @documentAccount
     safeId: StreamID! @documentReference(model: "Safe")

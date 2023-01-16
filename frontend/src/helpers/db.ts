@@ -7,11 +7,11 @@ const ceramicUrl = process.env.REACT_APP_COMPOSEDB_NODE || 'https://composedb.tk
 const compose = new ComposeClient({ ceramic: ceramicUrl, definition: <RuntimeCompositeDefinition>definition })
 export const sessionKey = 'ceramic-session';
 
-export type TransactionData = {
-  to: string,
-  nonce: number,
-  value: string,
-  data: string,
+export interface TransactionData {
+  to: string;
+  nonce: number;
+  value: string;
+  data: string;
 }
 
 async function attachDid() {
@@ -44,7 +44,7 @@ export default {
         }
       }
     })
-    console.log('insertSafe --', result)
+    console.info('insertSafe:', result)
 
     return result;
   },
@@ -74,8 +74,6 @@ export default {
       }
     }
 
-    // console.log(input, 'input')
-
     const createTransactionResponse = await compose.executeQuery(`mutation ($input: CreateTransactionInput!) {
       createTransaction(input: $input) {
         document {
@@ -95,9 +93,33 @@ export default {
       }
     }`, input)
 
-    // console.log('InsertTransaction --', createTransactionResponse)
+    console.info('insertTransaction:', createTransactionResponse)
 
     return createTransactionResponse
+  },
+
+  markTransactionAsExecuted: async function (transactionId: string) {
+    await attachDid();
+
+    const result = await compose.executeQuery(`mutation ($input: UpdateTransactionInput!) {
+      updateTransaction(input: $input) {
+        document {
+          id
+        }
+      }
+    }
+    `, {
+      "input": {
+        "id": transactionId,
+        "content": {
+          "isExecuted": true
+        }
+      }
+    })
+
+    console.info('markTransactionAsExecuted:', result)
+
+    return result;
   },
 
   saveConfirmation: async function (transactionId: string, owner: string, signature: string) {
@@ -124,7 +146,7 @@ export default {
       }
     })
 
-    // console.log('saveConfirmation --', result)
+    console.info('saveConfirmation:', result)
 
     return result;
   },
@@ -155,6 +177,7 @@ export default {
                     gasPrice
                     gasToken
                     refundReceiver
+                    isExecuted
                     confirmations(last: 5) {
                       edges {
                         node {
@@ -174,13 +197,13 @@ export default {
       }`
     )
 
-    // console.log('readData -- ', result)
+    console.info('readData:', result)
 
     return result;
   },
 
   getSafe: async function (safeId: string) {
-    // Shitty way of doing this, because ComposeDB doesn't support getById
+    // Shitty way of doing this, because ComposeDB doesn't support getById yet
     const { data } = await this.readData()
     const safeIndex: any = data?.safeIndex
     const edges = safeIndex.edges

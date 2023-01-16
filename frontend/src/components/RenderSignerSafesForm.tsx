@@ -14,7 +14,7 @@ export default function RenderSignerSafesForm() {
 
     async function insertRealSafe() {
         const insertSafeResponse = await db.insertSafe(safeAddress, safe.data.owners)
-        console.log('Create safe response for real safe:', insertSafeResponse)
+        console.info('Create safe response', insertSafeResponse)
         const createdSafe: any = insertSafeResponse.data?.createSafe;
         navigate(`/safe/${createdSafe.document.id}`);
     }
