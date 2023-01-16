@@ -1,5 +1,7 @@
 # Safe Decentralized Registry [POC] 
 
+// TODO: Update docs
+
 Demo is deployed at https://charming-pony-72144d.netlify.app
 
 This POC website works with a React dApp and a ComposedDB Node. It is meant to demonstrate the flow of storing Safe signatures on ComposeDB that is indexing Safe models(composites).
