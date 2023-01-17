@@ -7,6 +7,11 @@ const RenderSafes = ({signerAddress}: {signerAddress: string|undefined}) => {
     const { isLoading, error, data } = useQuery(['safes-composedb'], async () => {
         const response: any = await db.readData();
         // Filter results so that the owner can see them
+
+        if (response.errors.length) {
+          return [];
+        }
+
         const filteredResults = response.data.safeIndex.edges.filter((x : any) => {
           return x.node.owners.includes(signerAddress)
         })
@@ -32,7 +37,7 @@ const RenderSafes = ({signerAddress}: {signerAddress: string|undefined}) => {
 
     if (!results.length) {
       return (
-        <h1 style={{textAlign: 'center', color: 'white'}}>Please Insert your Safe</h1>
+        <h2 style={{textAlign: 'center', color: 'white'}}>Please insert your Safe to ComposeDB</h2>
       )
     }
 
