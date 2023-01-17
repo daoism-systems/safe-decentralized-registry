@@ -19,7 +19,7 @@ To test the POC dApp functionality:
 5. Insert your safe to ComposeDB (if there are no safes in dropdown, that means that you don't have Safes deployed on Goerli testnet)
 
 <div>
-  <img src="https://i.imgur.com/YxQccor.png" width=50% height=50%>
+  <img src="https://i.imgur.com/YxQccor.png" width=70%>
 </div>
 <sub>When you insert safe, you should see something like this. This safe is 2/2, meaning both owners need to sign the transaction.</sub>
 
@@ -30,7 +30,7 @@ To test the POC dApp functionality:
 7. on transaction builder, there is a ERC20 token address pre-populated, and it exposes it's ABI.
 
 <div>
-  <img src="https://i.imgur.com/KStR6YN.png" width=50% height=50%>
+  <img src="https://i.imgur.com/KStR6YN.png" width=70%>
 </div>
 <sub>In this example, We are minting 1 dummy token to `0x5F9a7EA6A79Ef04F103bfe7BD45dA65476a5155C`</sub>
 
@@ -41,7 +41,7 @@ To test the POC dApp functionality:
 9. switch to safe owner wallet, click on the transaction, and sign it (repeat if multiple owners)
 
 <div>
-  <img src="https://i.imgur.com/cNljDEl.png" width=50% height=50%>
+  <img src="https://i.imgur.com/cNljDEl.png" width=70%>
 </div>
 <sub>2/2 Owners Signed the transaction, now it can be executed</sub>
 
