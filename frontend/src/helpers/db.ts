@@ -3,7 +3,9 @@ import { RuntimeCompositeDefinition } from '@composedb/types'
 import { definition } from '../__generated__/definition.js'
 import { DIDSession, } from 'did-session'
 
-const ceramicUrl = process.env.REACT_APP_COMPOSEDB_NODE || 'https://composedb.tk'
+// const ceramicUrl = process.env.REACT_APP_COMPOSEDB_NODE || 'https://composedb.tk'
+const ceramicUrl = 'https://composedb.tk'
+console.log(ceramicUrl, 'Ceramic URL')
 const compose = new ComposeClient({ ceramic: ceramicUrl, definition: <RuntimeCompositeDefinition>definition })
 export const sessionKey = 'ceramic-session';
 

@@ -8,10 +8,10 @@ const RenderSafes = ({signerAddress}: {signerAddress: string|undefined}) => {
         const response: any = await db.readData();
         // Filter results so that the owner can see them
 
-        if (response.errors.length) {
+        if (response.errors?.length || response.data.safeIndex.edges.length == 0) {
           return [];
         }
-
+        
         const filteredResults = response.data.safeIndex.edges.filter((x : any) => {
           return x.node.owners.includes(signerAddress)
         })

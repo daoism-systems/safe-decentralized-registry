@@ -13,6 +13,7 @@ const executeSafeTransaction = async (safeAddress: string, tx: any) => {
     const response = await safeContract.connect(signer).execTransaction(transaction.to, transaction.value, transaction.data, 0, 0, 0, 0, transaction.gasToken, transaction.refundReceiver, `0x${signatures}`)
     console.info('executeSafeTransaction:', response);
     window.open(`https://goerli.etherscan.io/tx/${response.hash}`);
+    return response;
 }
 
 export default executeSafeTransaction;

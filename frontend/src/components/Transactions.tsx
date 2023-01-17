@@ -1,10 +1,10 @@
-import { Button } from '@mui/material'
+import { Button, Alert } from '@mui/material'
 import { useLoaderData } from "react-router-dom";
 import signMessage from '../helpers/sign'
 import executeSafeTransaction from "../helpers/execute";
 import db, { TransactionData } from "../helpers/db";
 import { fetchSafeNonce } from '../helpers/fetchSafeNonce';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Transaction {
     node: {
@@ -22,6 +22,7 @@ interface Transaction {
 }
 
 function RenderTransactions() {
+    const [txHash, setTxHash] = useState('')
     const loaderData: any = useLoaderData();
     const safe = loaderData.safe;
     const transactions: Transaction[] = safe.node.transactions.edges
@@ -61,6 +62,11 @@ function RenderTransactions() {
         window.location.reload();
     }
 
+    const executeTx = async(safeAddress: string, transaction: any) => {
+        const response = await executeSafeTransaction(safeAddress, transaction)
+        setTxHash(response.hash)
+    }
+
     const renderConfirmations = (confirmations: any) => {
         return (
             <div className='confimations'>
@@ -71,6 +77,14 @@ function RenderTransactions() {
                 ))}
             </div>
         );
+    }
+
+    if (txHash) {
+        return (
+            <a href={`https://goerli.etherscan.io/tx/${txHash}`}>
+                <Alert severity="info">TX is being processed. Click to see on Etherscan</Alert>
+            </a>
+        )
     }
 
     return (
@@ -85,7 +99,7 @@ function RenderTransactions() {
                             <hr />
                             {renderConfirmations(transaction.node.confirmations.edges)}
                         </div>
-                        <Button onClick={() => executeSafeTransaction(safeAddress, transaction)} variant="outlined">Execute on chain</Button>
+                        <Button onClick={() => executeTx(safeAddress, transaction)} variant="outlined">Execute on chain</Button>
                     </div>
                     <hr />
                 </div>
