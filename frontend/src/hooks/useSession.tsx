@@ -18,7 +18,7 @@ const useSession = () => {
           const sessionChanged = didSession.id.split(':').pop()?.toLowerCase() != signerAddress.toLowerCase()
     
           if (didSession.isExpired || sessionChanged) {
-            console.log('Session expired or changed')
+            console.info('Session expired or changed')
             localStorage.removeItem(sessionKey)
             window.location.reload()
             return;
