@@ -45,8 +45,6 @@ input:-webkit-autofill:active{
   -webkit-box-shadow: 0 0 0px 1000px #1d241d inset;
 }
 
-
-
 /* Select Safe to Add box */
 #root > div.app-body > div > div > div > div > div:nth-child(2) > div > div > div > div {
   color:white;

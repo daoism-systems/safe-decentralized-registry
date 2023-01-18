@@ -23,6 +23,7 @@ interface Transaction {
 
 function RenderTransactions() {
     const [txHash, setTxHash] = useState('')
+    const [error, setError] = useState('')
     const loaderData: any = useLoaderData();
     const safe = loaderData.safe;
     const transactions: Transaction[] = safe.node.transactions.edges
@@ -63,8 +64,12 @@ function RenderTransactions() {
     }
 
     const executeTx = async(safeAddress: string, transaction: any) => {
-        const response = await executeSafeTransaction(safeAddress, transaction)
-        setTxHash(response.hash)
+        const resp = await executeSafeTransaction(safeAddress, transaction)
+        if (!(resp?.isSuccess)) {
+            setError(resp?.data)
+            return;
+        }
+        setTxHash(resp?.data)
     }
 
     const renderConfirmations = (confirmations: any) => {
@@ -79,6 +84,14 @@ function RenderTransactions() {
         );
     }
 
+    if (error) {
+        setTimeout(() => {
+            setError('');
+        }, 2500);
+        return (
+            <Alert severity="error">Error: {error}</Alert>
+        )
+    }
     if (txHash) {
         return (
             <a href={`https://goerli.etherscan.io/tx/${txHash}`}>
