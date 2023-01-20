@@ -1,7 +1,6 @@
 import { ethers } from 'ethers';
 
-const executeSafeTransaction = async (safeAddress: string, tx: any) => {
-    const transaction: any = tx.node
+const executeSafeTransaction = async (safeAddress: string, transaction: any) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum as any);
 
     const network = await provider.getNetwork();

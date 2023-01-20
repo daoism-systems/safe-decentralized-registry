@@ -6,7 +6,7 @@ import {
   QueryClientProvider,
 } from 'react-query'
 import './index.css';
-import Safe from './components/Safe';
+import Safe from './components/Safe/Safe';
 import reportWebVitals from './reportWebVitals';
 import {
   createBrowserRouter,
@@ -16,12 +16,12 @@ import { ChainId, ThirdwebProvider, ConnectWallet } from "@thirdweb-dev/react";
 import { ThemeProvider } from '@mui/material'
 import { createTheme } from '@mui/material/styles';
 import { safeLoader } from './loaders';
-import SafeDemo from './components/SafeDemo';
+import Landing from './components/Landing/Landing';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <SafeDemo />,
+    element: <Landing />,
   },
   {
     path: "safe/:safeId",

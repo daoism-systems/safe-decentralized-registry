@@ -4,12 +4,12 @@ import Button from '@mui/material/Button';
 import { Stack } from '@mui/material'
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum'
 import { useAddress } from "@thirdweb-dev/react";
-import db, { sessionKey } from '../helpers/db';
-import RenderSignerSafesForm from './RenderSignerSafesForm';
-import RenderSafes from './RenderSafes';
-import useSession from '../hooks/useSession';
+import db, { sessionKey } from '../../helpers/db';
+import RenderSignerSafesSelect from '../RenderSafeSelect/RenderSignerSafesSelect';
+import RenderSafes from '../RenderSafes/RenderSafes';
+import useSession from './hooks/useSession';
 
-function SafeDemo() {
+function Landing() {
   const { session, setSession } = useSession();
   const signerAddress = useAddress();
 
@@ -30,7 +30,7 @@ function SafeDemo() {
       <Stack spacing={3}>
         <RenderSafes signerAddress={signerAddress} />
         <Stack direction='row' justifyContent="center">
-          <RenderSignerSafesForm />
+          <RenderSignerSafesSelect />
         </Stack>
         <Stack direction='row' justifyContent="center">
           <Button
@@ -76,4 +76,4 @@ function SafeDemo() {
   )
 }
 
-export default SafeDemo
+export default Landing

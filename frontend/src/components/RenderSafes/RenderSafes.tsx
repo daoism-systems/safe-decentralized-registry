@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query'
 import { Link } from "react-router-dom";
 import { Grid, CircularProgress, Alert } from '@mui/material'
-import db from '../helpers/db'
+import db from '../../helpers/db'
 
 const RenderSafes = ({signerAddress}: {signerAddress: string|undefined}) => {
     const { isLoading, error, data } = useQuery(['safes-composedb'], async () => {

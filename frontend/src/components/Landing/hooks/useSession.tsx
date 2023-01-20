@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { DIDSession, } from 'did-session'
 import { useAddress } from "@thirdweb-dev/react";
-import { sessionKey } from '../helpers/db';
+import { sessionKey } from '../../../helpers/db';
 
 const useSession = () => {
     const signerAddress = useAddress();

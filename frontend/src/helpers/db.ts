@@ -2,6 +2,7 @@ import { ComposeClient } from '@composedb/client'
 import { RuntimeCompositeDefinition } from '@composedb/types'
 import { definition } from '../__generated__/definition.js'
 import { DIDSession, } from 'did-session'
+import type { DID } from 'dids';
 
 const ceramicUrl = process.env.REACT_APP_COMPOSEDB_NODE || 'https://composedb.tk'
 console.log(ceramicUrl, 'Ceramic URL')

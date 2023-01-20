@@ -24,7 +24,7 @@ const CreateTransaction = () => {
 
     if (!isFetched && contractAddress != '') {
         return (
-            <CircularProgress/>
+            <CircularProgress />
         )
     }
 

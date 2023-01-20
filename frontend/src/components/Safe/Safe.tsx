@@ -1,5 +1,5 @@
-import CreateTransaction from "./CreateTransaction";
-import RenderTransactions from "./Transactions";
+import CreateTransaction from "../CreateTransaction/CreateTransaction";
+import RenderTransactions from "../RenderTransactions/RenderTransactions";
 import { Grid } from '@mui/material'
 
 function Safe() {

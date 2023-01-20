@@ -1,11 +1,11 @@
 import { FormControl, InputLabel, Select, MenuItem, Button, CircularProgress } from '@mui/material'
 import { useState } from 'react';
-import useSafes from '../hooks/useSafes';
-import db from '../helpers/db';
-import useSafe from '../hooks/useSafe';
+import useSafes from './hooks/useSafes';
+import db from '../../helpers/db';
+import useSafe from './hooks/useSafe';
 import { useNavigate } from "react-router-dom";
 
-export default function RenderSignerSafesForm() {
+export default function RenderSignerSafesSelect() {
     const navigate = useNavigate();
 
     const { isLoading, error, data } = useSafes();

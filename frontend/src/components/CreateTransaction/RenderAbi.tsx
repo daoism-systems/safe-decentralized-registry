@@ -1,8 +1,8 @@
 import { FormControl, InputLabel, Select, MenuItem, TextField, Button, Grid } from '@mui/material'
 import { useState } from 'react'
 import { useLoaderData } from "react-router-dom";
-import db, { TransactionData } from '../helpers/db';
-import { fetchSafeNonce } from '../helpers/fetchSafeNonce';
+import db, { TransactionData } from '../../helpers/db';
+import { fetchSafeNonce } from '../../helpers/fetchSafeNonce';
 
 interface FormValues {
     // can be anything
@@ -16,7 +16,7 @@ const RenderAbi = ({ contract, contractAddress }: { contract: any, contractAddre
     const [formValues, setFormValues] = useState<FormValues>({ ethValue: '0', hexCallData: '0x' });
     const safeAddress = loaderData.safe.node.safe;
 
-    async function handleSubmitNoContract() {
+    async function handleSubmitWithoutABI() {
         const payload = {
             to: contractAddress,
             nonce: await fetchSafeNonce(safeAddress),
@@ -35,7 +35,7 @@ const RenderAbi = ({ contract, contractAddress }: { contract: any, contractAddre
         }
     }
 
-    async function handleSubmit() {
+    async function handleSubmitWithABI() {
         // match function from the ABI
         const fncParams = contract.abi.filter((x: any) => {
             if (x.name == selectedFunction && x.type == 'function') {
@@ -73,7 +73,7 @@ const RenderAbi = ({ contract, contractAddress }: { contract: any, contractAddre
         })
     }
 
-    const renderCreateTransaction = () => {
+    const renderInputs = () => {
         const fnc = (contract.abi as any[] || []).find((x) => x.name == selectedFunction)
 
         if (!fnc) return null;
@@ -84,7 +84,7 @@ const RenderAbi = ({ contract, contractAddress }: { contract: any, contractAddre
                     fnc.inputs.map((x: any) => <TextField id='text-fields' focused variant='outlined' key={x.name} name={x.name} onChange={handleTextFieldChange} fullWidth margin="normal" label={x.name} />)
                 }
                 <TextField id='text-fields' focused key='ethValue' name='ethValue' value={formValues.ethValue} onChange={handleTextFieldChange} fullWidth margin="normal" label='ETH Value' variant="outlined" />
-                <Button onClick={handleSubmit} size="large" variant="outlined">Create transaction</Button>
+                <Button onClick={handleSubmitWithABI} size="large" variant="outlined">Create transaction</Button>
             </FormControl>
         )
     }
@@ -94,7 +94,7 @@ const RenderAbi = ({ contract, contractAddress }: { contract: any, contractAddre
             <div>
                 <TextField id='text-fields' focused key='ethValue' name='ethValue' value={formValues.ethValue} onChange={handleTextFieldChange} fullWidth margin="normal" label='ETH Value' variant="outlined" />
                 <TextField id='text-fields' focused key='data' name='hexCallData' value={formValues.hexCallData} onChange={handleTextFieldChange} fullWidth margin="normal" label='Hex calldata' variant="outlined" />
-                <Button onClick={handleSubmitNoContract} size="large" variant="outlined">Create transaction</Button>
+                <Button onClick={handleSubmitWithoutABI} size="large" variant="outlined">Create transaction</Button>
             </div>
         )
     }
@@ -128,7 +128,7 @@ const RenderAbi = ({ contract, contractAddress }: { contract: any, contractAddre
                 </Select>
             </FormControl>
             {
-                renderCreateTransaction()
+                renderInputs()
             }
         </Grid>
     )
