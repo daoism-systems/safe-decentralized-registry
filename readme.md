@@ -25,6 +25,7 @@ To test the functionality of the POC dApp:
 
 <br>
 
+
 6. Click on that Safe to proceed to transaction builder
 
 7.In the transaction builder, you will see an ERC20 token address that is pre-populated and it's ABI is exposed.
@@ -35,6 +36,7 @@ To test the functionality of the POC dApp:
 <sub>In this example, We are minting 1 dummy token to `0x5F9a7EA6A79Ef04F103bfe7BD45dA65476a5155C`</sub>
 
 <br>
+
 
 8. After creating the transaction, you will need to sign it. In this example, the signatures of 2 out of 2 owners are required.
 
