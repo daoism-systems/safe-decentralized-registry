@@ -2,21 +2,21 @@
 
 Demo is deployed at https://charming-pony-72144d.netlify.app
 
-This POC website works with a React and a ComposedDB Node. It is meant to demonstrate the flow of storing Safe signatures on ComposeDB that is indexing Safe models(composites).
+This proof-of-concept website is built with React and ComposedDB Node. It is designed to demonstrate the process of storing Safe signatures on ComposeDB, which indexes Safe models (composites).
 
 # How to test it?
 
-To test the POC dApp functionality:
+To test the functionality of the POC dApp:
 
-1. select a `Görli testnet` on your metamask
+1. Select the `Görli testnet` in your Metamask wallet
 
-2. connect your wallet
+2. Connect your wallet
 
-3. press `sign in with ethereum`
+3. Press `sign in with ethereum`
 
-4. sign a message that will allow to dapp to write write to ComposeDB models for you
+4. Signa message that will allow the dApp to write to ComposeDB models on your behalf
 
-5. Insert your safe to ComposeDB (if there are no safes in dropdown, that means that you don't have Safes deployed on Goerli testnet)
+5. Insert your safe into ComposeDB. Izf there are no safes in the dropdown, that means you do not have any Safes deployed on the Görli testnet.
 
 <div>
   <img src="https://i.imgur.com/YxQccor.png" width=70%>
@@ -25,9 +25,9 @@ To test the POC dApp functionality:
 
 <br>
 
-6. click on that safe to go to transaction builder
+6. Click on that Safe to proceed to transaction builder
 
-7. on transaction builder, there is a ERC20 token address pre-populated, and it exposes it's ABI.
+7.In the transaction builder, you will see an ERC20 token address that is pre-populated and it's ABI is exposed.
 
 <div>
   <img src="https://i.imgur.com/KStR6YN.png" width=70%>
@@ -36,9 +36,11 @@ To test the POC dApp functionality:
 
 <br>
 
-8. after you create transaction, now you need to sign it. In this example 2/2 owners are needed to sign it
+8. After creating the transaction, you will need to sign it. In this example, the signatures of 2 out of 2 owners are required.
 
-9. switch to safe owner wallet, click on the transaction, and sign it (repeat if multiple owners)
+
+9. Switch to the Safe owner's wallet, click on the transaction, and sign it (repeat this step for multiple owners if necessary).
+
 
 <div>
   <img src="https://i.imgur.com/cNljDEl.png" width=70%>
@@ -47,7 +49,7 @@ To test the POC dApp functionality:
 
 <br>
 
-10. Execute transaction from any wallet
+10. Execute the transaction from any wallet
 
 ## Run your frontend locally
 
